@@ -5,4 +5,4 @@ data = pd.read_csv("https://raw.githubusercontent.com/donde-esta-la-biblioteca/W
 available_products = data[data["Availability"] == "Available"]
 
 for i in range(10):
-    print(data["Product Name"][i])
+    print(data["Product Name"][i] ,available_products["Availability"])
