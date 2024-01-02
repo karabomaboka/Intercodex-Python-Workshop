@@ -4,52 +4,37 @@ from io import StringIO
 
 url = "https://raw.githubusercontent.com/donde-esta-la-biblioteca/Woolworths-Coles-IGA/main/Data/2021-04-23%20WOW%20Data.csv"
 
-# Download the CSV content
 response = requests.get(url)
 data = response.text
 
-# Read the CSV data into a pandas DataFrame
 df = pd.read_csv(StringIO(data))
 
-# Display the original DataFrame
-print("Original DataFrame:")
-print(df[['Price per unit']])
+df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
+df['Price per unit'] = pd.to_numeric(df['Price per unit'], errors='coerce')
+df['Specials'] = df['Specials'].astype(bool)
+df['Ratings'] = df['Ratings'].astype('category')
+df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
 
-#Separate the price/ unit column
-# Separate numeric and non-numeric parts in the "Price per unit" column
-df[['Price Numeric', 'Price Alphabetic']] = df['Price per unit'].str.extract('(\d+\.?\d*)\s*([a-zA-Z]+)')
+# Extract numeric and alphabetic parts from the 'Price' column
+df[['Price Numeric', 'Price Alphabetic']] = df['Price'].astype(str).str.extract('(\d+\.?\d*)\s*([a-zA-Z]+)')
+
+# Convert the 'Price' column to numeric values
+df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
+
+# Drop the original 'Price per unit' column
+df = df.drop(columns=['Price per unit'])
+
 
 # Display the DataFrame with separated columns
 print("\nDataFrame with Separated Columns:")
 print(df[['Price Numeric', 'Price Alphabetic']])
 
-# Converting data types to appropriate data types; there is an issue with the category field
-df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
 
-df['Price Numeric'] = pd.to_numeric(df['Price per unit'], errors='coerce')
- 
-df['Specials'] = df['Specials'].astype(bool)
- 
-df['Ratings'] = df['Ratings'].astype('category')
- 
-df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
- 
-print("Corrected Data Types:")
- 
-print(df.dtypes)
+# Group by 'Department' and calculate total and average prices
+department_stats = df.groupby('Department')['Price'].agg(['sum', 'mean']).reset_index()
 
-# Drop the 'Price per unit' column
-df = df.drop(columns=['Price per unit'])
+# Rename columns for clarity
+department_stats.columns = ['Department', 'Total Price', 'Average Price']
 
-# Check for null values before interpolation
-print("Null values before interpolation:")
-print(df.isnull().sum())
-
-# Interpolate null values using the interpolate method
-df_interpolated = df.interpolate()
-
-# Check for null values after interpolation
-print("\nNull values after interpolation:")
-print(df_interpolated.isnull().sum())
-
-
+# Display the results
+print(department_stats)
