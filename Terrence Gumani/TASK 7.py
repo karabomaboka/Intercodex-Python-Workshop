@@ -11,6 +11,12 @@ data = response.text
 # Read the CSV data into a pandas DataFrame
 df = pd.read_csv(StringIO(data))
 
+df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
+df['Price per unit'] = pd.to_numeric(df['Price per unit'], errors='coerce')
+df['Specials'] = df['Specials'].astype(bool)
+df['Ratings'] = df['Ratings'].astype('category')
+df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+
 # Find and remove duplicate columns
 df = df.loc[:, ~df.columns.duplicated()]
 
