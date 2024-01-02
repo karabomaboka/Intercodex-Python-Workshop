@@ -24,11 +24,9 @@ df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
 # Drop the original 'Price per unit' column
 df = df.drop(columns=['Price per unit'])
 
-
 # Display the DataFrame with separated columns
 print("\nDataFrame with Separated Columns:")
 print(df[['Price Numeric', 'Price Alphabetic']])
-
 
 # Group by 'Department' and calculate total and average prices
 department_stats = df.groupby('Department')['Price'].agg(['sum', 'mean']).reset_index()
