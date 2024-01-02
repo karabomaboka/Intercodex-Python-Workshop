@@ -35,4 +35,5 @@ department_stats = df.groupby('Department')['Price'].agg(['sum', 'mean']).reset_
 department_stats.columns = ['Department', 'Total Price', 'Average Price']
 
 # Display the results
+print
 print(department_stats)

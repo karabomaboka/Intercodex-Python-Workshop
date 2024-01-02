@@ -17,12 +17,16 @@ df['Specials'] = df['Specials'].astype(bool)
 df['Ratings'] = df['Ratings'].astype('category')
 df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
 
-# Find and remove duplicate columns
-df = df.loc[:, ~df.columns.duplicated()]
+# print the 
+print(f"Number of rows is {len(df)}")
+print(f"Number of unique SKU {df['SKU']. nunique}")
 
-# Find and remove constant columns
-constant_columns = df.columns[df.nunique() == 1]
-df = df.drop(columns=constant_columns)
+# Count the number of duplicate rows
+num_duplicates = df.duplicated().sum()
 
-# Display the DataFrame after removing duplicates and constants
+# Display the number of duplicates
+print(f"Number of duplicate rows: {num_duplicates}")
+
+df = df.drop_duplicates() 
+
 print(df)
