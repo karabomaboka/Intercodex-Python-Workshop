@@ -39,5 +39,15 @@ print(df.dtypes)
 # Drop the 'Price per unit' column
 df = df.drop(columns=['Price per unit'])
 
-# Display the DataFrame after dropping the column
-print(df)
+# Check for null values before interpolation
+print("Null values before interpolation:")
+print(df.isnull().sum())
+
+# Interpolate null values using the interpolate method
+df_interpolated = df.interpolate()
+
+# Check for null values after interpolation
+print("\nNull values after interpolation:")
+print(df_interpolated.isnull().sum())
+
+
