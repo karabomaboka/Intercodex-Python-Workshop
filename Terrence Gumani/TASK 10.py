@@ -24,8 +24,10 @@ df[['Price Numeric', 'Price Alphabetic']] = df['Price'].astype(str).str.extract(
 # Convert the 'Price' column to numeric values
 df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
 
-# Drop the original 'Price per unit' column
+# Drop the original 'Price per unit' and 'ratings' columns
 df = df.drop(columns=['Price per unit'])
+
+df = df.drop(columns=['Ratings'])
 
 # Check for null values before interpolation
 print("Null values before interpolation:")
