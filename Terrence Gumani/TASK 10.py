@@ -27,7 +27,16 @@ df['Price'] = pd.to_numeric(df['Price'], errors='coerce').astype(float)
 # Drop the original 'Price per unit' column
 df = df.drop(columns=['Price per unit'])
 
-df = df.drop_duplicates() 
+# Check for null values before interpolation
+print("Null values before interpolation:")
+print(df.isnull().sum())
+
+# Interpolate null values using the interpolate method
+df_interpolated = df.interpolate()
+
+# Check for null values after interpolation
+print("\nNull values after interpolation:")
+print(df_interpolated.isnull().sum())
 
 # Create a new column 'Date' with random SAST dates
 start_date = '2022-01-01'
@@ -40,5 +49,14 @@ random_dates = pd.date_range(start=start_date, end=end_date, periods=num_rows, t
 # Add the 'Date' column to the DataFrame
 df['Date'] = random_dates
 
-# Display the DataFrame with the new 'Date' column
-print(df[['Date', 'Department', 'Price', 'Product Name']])  # Adjust column names as needed
+# Add a new column 'Quantity Sold' 
+min_quantity = 100
+max_quantity = 100000
+df['Quantity Sold'] = np.random.randint(min_quantity, max_quantity + 1, size=num_rows)
+
+# Calculate correlation matrix
+correlation_matrix = df[['Price', 'Quantity Sold', 'Date']].corr()
+
+# Display the correlation matrix
+print("Correlation Matrix:")
+print(correlation_matrix)

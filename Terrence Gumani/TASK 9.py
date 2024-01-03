@@ -40,10 +40,10 @@ random_dates = pd.date_range(start=start_date, end=end_date, periods=num_rows, t
 # Add the 'Date' column to the DataFrame
 df['Date'] = random_dates
 
-# Add a new column 'Quantity Sold' with random quantities
+# Add a new column 'Quantity Sold' 
 min_quantity = 100
 max_quantity = 100000
 df['Quantity Sold'] = np.random.randint(min_quantity, max_quantity + 1, size=num_rows)
 
-# Display the DataFrame with the new 'Date' column
-print(df[['Date', 'Department', 'Price', 'Quantity Sold']])  # Adjust column names as needed
+print(df[['Date', 'Department', 'Price', 'Quantity Sold']])  
+
