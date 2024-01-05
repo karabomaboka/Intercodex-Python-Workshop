@@ -1,79 +1,66 @@
-# Base class (parent class)
-class Vehicle:
-    def __init__(self, name: str, model: str, year: int, engine_size: str, colour: str):
-        self._name = name
-        self._model = model
-        self._year = year
-        self._engine_size = engine_size
-        self._colour = colour
-        self._is_running = False
+# Class representing an Employee
+class Employee:
+    def __init__(self, emp_id, name):
+        self.emp_id = emp_id
+        self.name = name
 
-    def get_name(self) -> str:
-        return self._name
+    def __str__(self):
+        return f"Employee {self.emp_id}: {self.name}"
 
-    def get_model(self) -> str:
-        return self._model
+# Class representing a Student
+class Student:
+    def __init__(self, student_id, name):
+        self.student_id = student_id
+        self.name = name
 
-    def get_year(self) -> int:
-        return self._year
+    def __str__(self):
+        return f"Student {self.student_id}: {self.name}"
 
-    def get_engine_size(self) -> str:
-        return self._engine_size
+# Class representing a Team that aggregates both Employees and Students
+class Team:
+    def __init__(self, team_name):
+        self.team_name = team_name
+        self.members = []  # List to store aggregated objects (Employees or Students)
 
-    def get_colour(self) -> str:
-        return self._colour
+    def add_member(self, member):
+        self.members.append(member)
 
-    def __str__(self) -> str:
-        return f"Name: {self._name}, Model: {self._model}, Year: {self._year}, Engine Size: {self._engine_size}, Colour: {self._colour}"
+    def remove_member(self, member):
+        if member in self.members:
+            self.members.remove(member)
+        else:
+            print(f"{member} is not a member of {self.team_name}")
 
-# Subclass 1
-class Car(Vehicle):
-    def __init__(self, name: str, model: str, year: int, engine_size: str, colour: str, num_doors: int, country: str):
-        super().__init__(name, model, year, engine_size, colour)
-        self._num_doors = num_doors
-        self._country = country
+    def display_members(self):
+        print(f"Members of Team '{self.team_name}':")
+        for member in self.members:
+            print(f"- {member}")
 
-    def get_num_doors(self) -> int:
-        return self._num_doors
+# Creating instances of Employee and Student
+employee1 = Employee(1, "John Doe")
+employee2 = Employee(2, "Jane Smith")
 
-    def __str__(self) -> str:
-        return super().__str__() + f", Num Doors: {self._num_doors}, Country: {self._country}"
+student1 = Student(101, "Alice Johnson")
+student2 = Student(102, "Bob Williams")
 
+# Creating instances of Team and adding members
+team1 = Team("Development Team")
+team1.add_member(employee1)
+team1.add_member(employee2)
+team1.add_member(student1)
 
-# Subclass 2
-class Motorcycle(Vehicle):
-    def __init__(self, name: str, model: str, year: int, engine_size: str, colour: str, has_sidecar: bool, bike_type: str):
-        super().__init__(name, model, year, engine_size, colour)
-        self._has_sidecar = has_sidecar
-        self._bike_type = bike_type
+team2 = Team("Marketing Team")
+team2.add_member(student2)
 
-    def get_has_sidecar(self) -> bool:
-        return self._has_sidecar
+# Displaying members of each team
+team1.display_members()
+print()  # Just for formatting
 
-    def get_bike_type(self) -> str:
-        return self._bike_type
+team2.display_members()
+print()  # Just for formatting
 
-    def __str__(self) -> str:
-        return super().__str__() + f", Has Sidecar: {self._has_sidecar}, Bike Type: {self._bike_type}"
+# Removing a member from a team
+team1.remove_member(employee1)
 
-
-# Instances of subclasses
-car1 = Car("Toyota", "Camry", 2022, "2.5L", "white", 4, "Toyota")
-car2 = Car("Bentley", "Flying Spur", 2023, "V8", "Black", 4, "Bentley")
-motorcycle1 = Motorcycle("Harley-Davidson", "Sportster", 2022, "1200cc", "red", False, "Sport")
-motorcycle2 = Motorcycle("Big Boy", "Two-Wheeler", 2022, "900cc", "blue", True, "Delivery")
-
-# Printing the details of the instances
-print("Car 1 Details:")
-print(car1)
-
-print("\nCar 2 Details:")
-print(car2)
-
-print("\nMotorcycle 1 Details:")
-print(motorcycle1)
-
-print("\nMotorcycle 2 Details:")
-print(motorcycle2)
-
-
+# Displaying members of the team after removal
+team1.display_members()
