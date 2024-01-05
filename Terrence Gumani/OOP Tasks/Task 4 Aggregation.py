@@ -55,12 +55,12 @@ student1 = Student(101, "Akhile Mcimeli")
 student2 = Student(102, "Terrence Gumani")
 
 # Creating instances of Team and adding members
-team1 = Team("Development Team")
+team1 = Team("Business Analysts Team")
 team1.add_member(employee1)
 team1.add_member(employee2)
 team1.add_member(student1)
 
-team2 = Team("Marketing Team")
+team2 = Team("Business Intelligence Team")
 team2.add_member(student2)
 
 # Displaying members of each team
