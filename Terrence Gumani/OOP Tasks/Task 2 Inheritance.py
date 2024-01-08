@@ -31,7 +31,7 @@ class Car(Vehicle):
     def __init__(self, name: str, model: str, year: int, engine_size: str, colour: str, num_doors: int, country: str):
         super().__init__(name, model, year, engine_size, colour)
         self._num_doors = num_doors
-        self._country = country
+        self._country = country #Amend
 
     def get_num_doors(self) -> int:
         return self._num_doors
