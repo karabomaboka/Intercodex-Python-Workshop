@@ -14,6 +14,7 @@ class Book:
     def __str__(self) -> str:
         return f"Title: {self._title}, Author: {self._authour}, Publication Year: {self._publication_year}" 
 
+# Instances
 book1 = Book('Harry Potter', 'JK rowling', 2003)
 book2 = Book('Black Swan', 'Nassim Taleb', 2013)
 book3 = Book('Grit', 'Angela Duckworth', 2018)
