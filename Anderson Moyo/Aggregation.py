@@ -1,0 +1,49 @@
+class Employee:
+    def __init__(self, employee_id: str, name: str):
+        self.employee_id = employee_id
+        self.name = name
+
+    def __str__(self):
+        return f"Employee {self.employee_id}: {self.name}"
+
+class Team:
+    def __init__(self, team_name: []):
+        self.team_name = team_name
+        self.members = []
+
+    def add_member(self, member: []):
+        self.members.append(member)
+        print(f"{str(member)} added to {self.team_name}")
+
+    def remove_member(self, member: []):
+        if member in self.members:
+            self.members.remove(member)
+            print(f"{str(member)} removed from {self.team_name}")
+        else:
+            print(f"{str(member)} not found in {self.team_name}")
+
+    def list_members(self):
+        print(f"Members of {self.team_name}:")
+        for member in self.members:
+            print(f" - {str(member)}")
+
+employee1 = Employee(1, "Sbusiso Dlomo")
+employee2 = Employee(2, "Fikile Nkosi")
+employee3 = Employee(3, "Scelo Mbatha")
+
+team1 = Team("Development Team")
+team2 = Team("Marketing Team")
+
+team1.add_member(employee1)
+team1.add_member(employee2)
+
+team2.add_member(employee2)
+team2.add_member(employee3)
+
+team1.list_members()
+team2.list_members()
+
+team1.remove_member(employee3)
+
+team2.remove_member(employee2)
+team2.list_members()
