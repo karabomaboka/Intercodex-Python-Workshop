@@ -1,12 +1,10 @@
 from abc import ABC, abstractmethod
 
-# Define an abstract class for shapes
 class Shape(ABC):
     @abstractmethod
     def draw(self):
         pass
 
-# Concrete implementation of a shape - Circle
 class Rectangle(Shape):
     def draw(self):
         print("Drawing a Rectangle")
@@ -21,23 +19,19 @@ class GraphicsEditor:
     def draw_shape(self, shape):
         shape.draw()
 
-# Extension point: Adding a new shape without modifying existing code
 class Triangle(Shape):
     def draw(self):
         print("Drawing a Triangle")
 
-# Usage example
 if __name__ == "__main__":
     # Existing code using the graphics editor
     editor = GraphicsEditor()
 
-    # Drawing existing shapes
     Rectangle = Rectangle()
     square = Square()
 
     editor.draw_shape(Rectangle)
     editor.draw_shape(square)
 
-    # Extension: Adding a new shape without modifying existing code
     triangle = Triangle()
     editor.draw_shape(triangle)
