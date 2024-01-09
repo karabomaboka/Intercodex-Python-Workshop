@@ -1,66 +1,49 @@
-# Class representing an Employee
 class Employee:
-    def __init__(self, emp_id, name):
-        self.emp_id = emp_id
+    def __init__(self, employee_id: str, name: str):
+        self.employee_id = employee_id
         self.name = name
 
     def __str__(self):
-        return f"Employee {self.emp_id}: {self.name}"
+        return f"Employee {self.employee_id}: {self.name}"
 
-# Class representing a Student
-class Student:
-    def __init__(self, student_id, name):
-        self.student_id = student_id
-        self.name = name
-
-    def __str__(self):
-        return f"Student {self.student_id}: {self.name}"
-
-# Class representing a Team that aggregates both Employees and Students
 class Team:
-    def __init__(self, team_name):
+    def __init__(self, team_name: []):
         self.team_name = team_name
-        self.members = []  # List to store aggregated objects (Employees or Students)
+        self.members = []
 
-    def add_member(self, member):
+    def add_member(self, member: []):
         self.members.append(member)
+        print(f"{str(member)} added to {self.team_name}")
 
-    def remove_member(self, member):
+    def remove_member(self, member: []):
         if member in self.members:
             self.members.remove(member)
+            print(f"{str(member)} removed from {self.team_name}")
         else:
-            print(f"{member} is not a member of {self.team_name}")
+            print(f"{str(member)} not found in {self.team_name}")
 
-    def display_members(self):
-        print(f"Members of Team '{self.team_name}':")
+    def list_members(self):
+        print(f"Members of {self.team_name}:")
         for member in self.members:
-            print(f"- {member}")
+            print(f" - {str(member)}")
 
-# Creating instances of Employee and Student
-employee1 = Employee(1, "John Doe")
-employee2 = Employee(2, "Jane Smith")
+employee1 = Employee(1, "Sbusiso Dlomo")
+employee2 = Employee(2, "Fikile Nkosi")
+employee3 = Employee(3, "Scelo Mbatha")
 
-student1 = Student(101, "Alice Johnson")
-student2 = Student(102, "Bob Williams")
-
-# Creating instances of Team and adding members
 team1 = Team("Development Team")
+team2 = Team("Marketing Team")
+
 team1.add_member(employee1)
 team1.add_member(employee2)
-team1.add_member(student1)
 
-team2 = Team("Marketing Team")
-team2.add_member(student2)
+team2.add_member(employee2)
+team2.add_member(employee3)
 
-# Displaying members of each team
-team1.display_members()
-print()  # Just for formatting
+team1.list_members()
+team2.list_members()
 
-team2.display_members()
-print()  # Just for formatting
+team1.remove_member(employee3)
 
-# Removing a member from a team
-team1.remove_member(employee1)
-
-# Displaying members of the team after removal
-team1.display_members()
+team2.remove_member(employee2)
+team2.list_members()
