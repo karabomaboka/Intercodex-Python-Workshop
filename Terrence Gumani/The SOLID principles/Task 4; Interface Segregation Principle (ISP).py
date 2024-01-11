@@ -47,8 +47,6 @@ class UserClient:
     def perform_scan_job(self):
         self.printer.scan_document()
 
-# Example usage
-
 printer = MultifunctionPrinter()
 
 computer_client = ComputerClient(printer)
