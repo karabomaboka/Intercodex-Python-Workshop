@@ -26,7 +26,6 @@ class Car_Builder:
         pass
     
 #Concrete builders
-
 class SUV_builder(Car_Builder):
     def build_model(self):
         self.car.model = "SUV"
@@ -67,7 +66,6 @@ class Sedan_builder(Car_Builder):
         self.car.accessories = ["4WD", "DSG", "TV", "Android Play"]
 
 # Car Director
-
 class Car_Director:
     def construct(self, builder):
         builder.build_model()
