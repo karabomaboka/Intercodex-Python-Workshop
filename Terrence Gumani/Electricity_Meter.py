@@ -1,5 +1,5 @@
 class ElectricityMeter:
-    def __init__(self, initial_units):
+    def __init__(self, initial_units:str):
         self.unit_balance = initial_units
 
     def upload_voucher(self, voucher_code):

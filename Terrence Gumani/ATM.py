@@ -20,9 +20,9 @@ class ATM:
         self.current_account = None
         self.notifications = []
 
-    def authenticate(self, account_number, entered_pin):
+    def authenticate(self, pin, account_number):
         account = self.bank.get_account(account_number)
-        if account and entered_pin == account.pin:
+        if account and pin == account.pin:
             self.current_account = account
             return True
         else:
@@ -67,7 +67,6 @@ class ATM:
 def main():
     bank = Bank()
 
-    # Adding sample accounts
     account1 = BankAccount(account_number="123456", pin="1234", balance=1000)
     account2 = BankAccount(account_number="789012", pin="5678", balance=500)
     bank.add_account(account1)
@@ -75,10 +74,12 @@ def main():
 
     atm = ATM(bank)
 
-    account_number = input("Enter your account number: ")
     pin = input("Enter your PIN: ")
 
-    if atm.authenticate(account_number, pin):
+    # Assuming the account number is fixed for the user
+    account_number = "123456"
+
+    if atm.authenticate(pin, account_number):
         print("Authentication successful. Welcome to the ATM!")
     else:
         print("Authentication failed. Exiting.")
