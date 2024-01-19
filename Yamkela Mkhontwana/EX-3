@@ -1,0 +1,100 @@
+# Product: ModularHouse
+class ModularHouse:
+    def __init__(self):
+        self.modules = []
+
+    def add_module(self, module):
+        self.modules.append(module)
+
+    def display_modules(self):
+        for module in self.modules:
+            print(f"- {module}")
+
+
+# Builder interface
+class HouseBuilder:
+    def create_house(self):
+        pass
+
+    def build_tech_room(self):
+        pass
+
+    def build_sun_deck(self):
+        pass
+
+    def build_green_garden(self):
+        pass
+
+    def get_house(self):
+        pass
+
+
+# Concrete Builder for Standard House
+class StandardHouseBuilder(HouseBuilder):
+    def create_house(self):
+        self.house = ModularHouse()
+
+    def build_tech_room(self):
+        self.house.add_module("Basic Tech Room")
+
+    def build_sun_deck(self):
+        pass  # Standard house doesn't have a sun deck
+
+    def build_green_garden(self):
+        pass  # Standard house doesn't have a green garden
+
+    def get_house(self):
+        return self.house
+
+
+# Concrete Builder for Luxury House
+class LuxuryHouseBuilder(HouseBuilder):
+    def create_house(self):
+        self.house = ModularHouse()
+
+    def build_tech_room(self):
+        self.house.add_module("Advanced Tech Room")
+
+    def build_sun_deck(self):
+        self.house.add_module("Spacious Sun Deck")
+
+    def build_green_garden(self):
+        self.house.add_module("Lush Green Garden")
+
+    def get_house(self):
+        return self.house
+
+
+# Director class
+class HouseDirector:
+    def __init__(self, builder):
+        self.builder = builder
+
+    def construct(self):
+        self.builder.create_house()
+        self.builder.build_tech_room()
+        self.builder.build_sun_deck()
+        self.builder.build_green_garden()
+
+    def get_house(self):
+        return self.builder.get_house()
+
+
+# Client code
+
+standard_builder = StandardHouseBuilder()
+luxury_builder = LuxuryHouseBuilder()
+
+director = HouseDirector(standard_builder)
+director.construct()
+standard_house = director.get_house()
+
+director = HouseDirector(luxury_builder)
+director.construct()
+luxury_house = director.get_house()
+
+print("Standard House Modules:")
+standard_house.display_modules()
+
+print("\nLuxury House Modules:")
+luxury_house.display_modules()

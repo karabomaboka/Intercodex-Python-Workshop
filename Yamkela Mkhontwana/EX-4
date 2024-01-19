@@ -1,0 +1,54 @@
+# Component: CarDashboard
+class CarDashboard:
+    def show(self):
+        pass
+
+
+# Concrete Component: BasicCarDashboard
+class BasicCarDashboard(CarDashboard):
+    def show(self):
+        return "Basic Car Dashboard"
+
+
+# Decorator: DashboardFeature
+class DashboardFeature(CarDashboard):
+    def __init__(self, dashboard):
+        self._dashboard = dashboard
+
+    def show(self):
+        return self._dashboard.show()
+
+
+# Concrete Decorators: GPS, MusicPlayer, ClimateControl
+
+class GPS(DashboardFeature):
+    def show(self):
+        return f"{super().show()}, GPS"
+
+
+class MusicPlayer(DashboardFeature):
+    def show(self):
+        return f"{super().show()}, Music Player"
+
+
+class ClimateControl(DashboardFeature):
+    def show(self):
+        return f"{super().show()}, Climate Control"
+
+
+# Client code
+
+basic_dashboard = BasicCarDashboard()
+dashboard_with_gps = GPS(basic_dashboard)
+dashboard_with_music_player = MusicPlayer(dashboard_with_gps)
+dashboard_with_all_features = ClimateControl(dashboard_with_music_player)
+
+# Displaying dashboards
+print("Basic Dashboard:")
+print(basic_dashboard.show())
+print("\nDashboard with GPS:")
+print(dashboard_with_gps.show())
+print("\nDashboard with Music Player:")
+print(dashboard_with_music_player.show())
+print("\nDashboard with All Features:")
+print(dashboard_with_all_features.show())

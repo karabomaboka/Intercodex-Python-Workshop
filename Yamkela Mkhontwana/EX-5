@@ -1,0 +1,45 @@
+# Product interface: Product
+class Product:
+    def produce(self):
+        pass
+
+
+# Concrete Products: ConcreteProductA, ConcreteProductB
+class ConcreteProductA(Product):
+    def produce(self):
+        return "Product A"
+
+
+class ConcreteProductB(Product):
+    def produce(self):
+        return "Product B"
+
+
+# Creator interface: Factory
+class Factory:
+    def create_product(self):
+        pass
+
+    def manage_production(self):
+        product = self.create_product()
+        print(f"Managing production of {product.produce()}")
+
+
+# Concrete Creators: ConcreteFactoryA, ConcreteFactoryB
+class ConcreteFactoryA(Factory):
+    def create_product(self):
+        return ConcreteProductA()
+
+
+class ConcreteFactoryB(Factory):
+    def create_product(self):
+        return ConcreteProductB()
+
+
+# Client code
+
+factory_A = ConcreteFactoryA()
+factory_A.manage_production()
+
+factory_B = ConcreteFactoryB()
+factory_B.manage_production()

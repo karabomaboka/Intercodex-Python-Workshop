@@ -1,0 +1,75 @@
+from abc import ABC, abstractmethod
+
+# Component: Vehicle
+class Vehicle(ABC):
+    @abstractmethod
+    def display_info(self):
+        pass
+
+
+# Leaf: Car
+class Car(Vehicle):
+    def __init__(self, model, fuel_type):
+        self.model = model
+        self.fuel_type = fuel_type
+
+    def display_info(self):
+        return f"Car - Model: {self.model}, Fuel Type: {self.fuel_type}"
+
+
+# Leaf: Truck
+class Truck(Vehicle):
+    def __init__(self, model, cargo_capacity):
+        self.model = model
+        self.cargo_capacity = cargo_capacity
+
+    def display_info(self):
+        return f"Truck - Model: {self.model}, Cargo Capacity: {self.cargo_capacity} tons"
+
+
+# Leaf: Bus
+class Bus(Vehicle):
+    def __init__(self, model, passenger_capacity):
+        self.model = model
+        self.passenger_capacity = passenger_capacity
+
+    def display_info(self):
+        return f"Bus - Model: {self.model}, Passenger Capacity: {self.passenger_capacity} passengers"
+
+
+# Composite: Fleet
+class Fleet(Vehicle):
+    def __init__(self):
+        self.vehicles = []
+
+    def add_vehicle(self, vehicle):
+        self.vehicles.append(vehicle)
+
+    def display_info(self):
+        info = "Fleet:\n"
+        for vehicle in self.vehicles:
+            info += f" - {vehicle.display_info()}\n"
+        return info
+
+
+# Client code
+
+# Creating individual vehicles
+car1 = Car("Sedan", "Petrol")
+truck1 = Truck("Heavy Duty Truck", 10)
+bus1 = Bus("City Bus", 50)
+
+# Creating a fleet and adding vehicles to it
+fleet = Fleet()
+fleet.add_vehicle(car1)
+fleet.add_vehicle(truck1)
+fleet.add_vehicle(bus1)
+
+# Displaying information for individual vehicles and the fleet
+print(car1.display_info())
+print(truck1.display_info())
+print(bus1.display_info())
+
+print("\n" + "="*30 + "\n")
+
+print(fleet.display_info())
