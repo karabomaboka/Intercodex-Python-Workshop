@@ -18,7 +18,23 @@ class Employee:
     def apply_raise(self):
         self.salary = int(self.salary * self.raise_amount)
 
-emp_1 = Employee('Terry', 'Guamni', 100000)
-emp_2 = Employee('Nqobile', 'Gumani', 100200)
+class Developer(Employee):
+    pass
+    
+    # @classmethod is a decorator used to define a class method. 
+    # A class method is a method that is bound to the class and not the instance of the class. 
+    # It takes the class itself as its first parameter, conventionally named cls. 
+    # @classmethod
+    # def set_raise_amount(cls, amount):
+    #     cls.raise_amount = amount
 
+dev_1 = Developer('Terry', 'Guamni', 100000)
+dev_2 = Developer('Nqobile', 'Gumani', 100200)
 
+print(help(Developer))
+
+# Employee.set_raise_amount(1.05)
+
+# print(emp_2.raise_amount)
+# print(emp_1.raise_amount)
+# print(Employee.raise_amount)
