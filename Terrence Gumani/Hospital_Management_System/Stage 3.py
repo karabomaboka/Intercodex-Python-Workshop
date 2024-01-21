@@ -16,7 +16,7 @@ class Patient(Person):
 
 # Class for a doctor, inheriting from Person
 class Doctor(Person):
-    def __init__(self, id_number, name, age, address, role, department):
+    def __init__(self, id_number, name, age, address, role="", department=""):
         super().__init__(id_number, name, age, address)
         self.role = role
         self.department = department
@@ -176,6 +176,8 @@ class HospitalManagementSystem:
             elif choice == "2":
                 doctor_name = input("Enter doctor name: ")
                 date_str = input("Enter appointment date and time (YYYY-MM-DD HH:MM): ")
+                
+                # Parse the input string to create a datetime object
                 date_time = datetime.strptime(date_str, "%Y-%m-%d %H:%M")
 
                 doctor = Doctor(doctor_name, 0, "", "", "")
@@ -273,7 +275,11 @@ class HospitalManagementSystem:
             else:
                 print("Invalid choice. Please enter a number between 1 and 13.")
 
+
 # Main entry point
 if __name__ == "__main__":
     hms = HospitalManagementSystem()
     hms.start_system()
+
+
+# Complete
