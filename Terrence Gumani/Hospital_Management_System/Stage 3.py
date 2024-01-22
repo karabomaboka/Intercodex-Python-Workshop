@@ -10,9 +10,10 @@ class Person:
 
 # Class for a patient, inheriting from Person
 class Patient(Person):
-    def __init__(self, id_number, name, age, address, medical_history=None):
+    def __init__(self, id_number, name, age, address, medical_history=None, assigned_doctor=None):
         super().__init__(id_number, name, age, address)
         self.medical_history = medical_history or "No medical history available."
+        self.assigned_doctor = assigned_doctor
 
 # Class for a doctor, inheriting from Person
 class Doctor(Person):
@@ -92,7 +93,12 @@ class StaffManagement:
     def __init__(self):
         self.staff_members = []
 
-    def add_staff_member(self, id_number, name, role, department):
+    def add_staff_member(self):
+        id_number = input("Enter staff member ID: ")
+        name = input("Enter staff member name: ")
+        role = input("Enter staff member role: ")
+        department = input("Enter staff member department: ")
+
         new_staff_member = Person(id_number, name, 0, "")
         new_staff_member.role = role
         new_staff_member.department = department
@@ -143,16 +149,30 @@ class HospitalManagementSystem:
         else:
             print("Patient not found.")
 
+    def assign_doctor_to_patient(self, patient):
+        if self.staff_management.staff_members:
+            doctor_name = input("Enter doctor name to assign to the patient: ")
+
+            for staff_member in self.staff_management.staff_members:
+                if staff_member.name == doctor_name and staff_member.role == "Doctor":
+                    patient.assigned_doctor = staff_member
+                    print(f"Doctor {doctor_name} assigned to {patient.name}.")
+                    break
+            else:
+                print(f"Doctor {doctor_name} not found or is not assigned as a Doctor.")
+        else:
+            print("No staff members available. Please add staff members first.")
+
     def start_system(self):
         while True:
             print("\nHospital Management System")
-            print("1. Register Patient")
-            print("2. Schedule Appointment")
-            print("3. Record Medical History")
-            print("4. View Medical History")
-            print("5. View Appointments")
-            print("6. Generate Bill")
-            print("7. Add Staff Member")
+            print("1. Add Staff Member")
+            print("2. Register Patient")
+            print("3. Schedule Appointment")
+            print("4. Record Medical History")
+            print("5. View Medical History")
+            print("6. View Appointments")
+            print("7. Generate Bill")
             print("8. Assign Doctor to Department")
             print("9. Manage Prescription")
             print("10. Generate Daily Appointments Report")
@@ -163,6 +183,9 @@ class HospitalManagementSystem:
             choice = input("Enter your choice (1-13): ")
 
             if choice == "1":
+                self.staff_management.add_staff_member()
+
+            elif choice == "2":
                 id_number = input("Enter patient ID: ")
                 name = input("Enter patient name: ")
                 age = int(input("Enter patient age: "))
@@ -171,115 +194,15 @@ class HospitalManagementSystem:
 
                 new_patient = Patient(id_number, name, age, address, medical_history)
                 self.medical_records.record_medical_history(new_patient, medical_history)
+
+                # Assign a doctor to the patient
+                self.assign_doctor_to_patient(new_patient)
+
                 print(f"Patient {name} registered successfully with ID: {id_number}.")
 
-            elif choice == "2":
-                doctor_name = input("Enter doctor name: ")
-                date_str = input("Enter appointment date and time (YYYY-MM-DD HH:MM): ")
-                
-                # Parse the input string to create a datetime object
-                date_time = datetime.strptime(date_str, "%Y-%m-%d %H:%M")
-
-                doctor = Doctor(doctor_name, 0, "", "", "")
-                patient = new_patient if 'new_patient' in locals() else None
-
-                if patient:
-                    new_appointment = Appointment(patient, doctor, date_time)
-                    self.appointments.append(new_appointment)
-                    print(f"Appointment scheduled with {doctor_name} on {date_str} for {patient.name}.")
-
-            elif choice == "3":
-                if 'new_patient' in locals():
-                    history = input("Enter additional medical history: ")
-                    self.medical_records.record_medical_history(new_patient, history)
-                    print("Medical history recorded successfully.")
-                else:
-                    print("Patient not registered. Please register a patient first.")
-
-            elif choice == "4":
-                if 'new_patient' in locals():
-                    print(self.medical_records.retrieve_medical_history(new_patient))
-                else:
-                    print("Patient not registered. Please register a patient first.")
-
-            elif choice == "5":
-                self.view_appointments()
-
-            elif choice == "6":
-                if self.appointments:
-                    latest_appointment = self.appointments[-1]
-                    bill = self.billing_system.generate_bill(latest_appointment)
-                    print(bill)
-                else:
-                    print("No appointments to generate a bill.")
-
-            elif choice == "7":
-                id_number = input("Enter staff member ID: ")
-                name = input("Enter staff member name: ")
-                role = input("Enter staff member role: ")
-                department = input("Enter staff member department: ")
-
-                self.staff_management.add_staff_member(id_number, name, role, department)
-
-            elif choice == "8":
-                if self.staff_management.staff_members:
-                    doctor_name = input("Enter doctor name: ")
-                    department = input("Enter department to assign the doctor: ")
-
-                    for staff_member in self.staff_management.staff_members:
-                        if staff_member.name == doctor_name and staff_member.role == "Doctor":
-                            staff_member.department = department
-                            print(f"Doctor {doctor_name} assigned to {department}.")
-                            break
-                    else:
-                        print(f"Doctor {doctor_name} not found or is not assigned as a Doctor.")
-                else:
-                    print("No staff members available. Please add staff members first.")
-
-            elif choice == "9":
-                if self.staff_management.staff_members:
-                    doctor_name = input("Enter doctor name: ")
-                    patient_id = input("Enter patient ID: ")
-                    medication = input("Enter prescribed medication: ")
-
-                    for staff_member in self.staff_management.staff_members:
-                        if staff_member.name == doctor_name and staff_member.role == "Doctor":
-                            # You might want to perform additional checks here
-                            patient = next((app.patient for app in self.appointments if app.patient.id_number == patient_id), None)
-                            if patient:
-                                self.prescription_management.manage_prescription(staff_member, patient, medication)
-                                break
-                            else:
-                                print(f"Patient with ID {patient_id} not found.")
-                        else:
-                            print(f"Doctor {doctor_name} not found or is not assigned as a Doctor.")
-                else:
-                    print("No staff members available. Please add staff members first.")
-
-            elif choice == "10":
-                date = input("Enter the date (YYYY-MM-DD) for the report: ")
-                print(self.reporting.generate_daily_appointments_report(date))
-
-            elif choice == "11":
-                month = input("Enter the month for the report: ")
-                year = input("Enter the year for the report: ")
-                print(self.reporting.generate_monthly_billing_summary(month, year))
-
-            elif choice == "12":
-                self.search_patient_by_id()
-
-            elif choice == "13":
-                print("Exiting Hospital Management System. Goodbye!")
-                break
-
-            else:
-                print("Invalid choice. Please enter a number between 1 and 13.")
-
+            # ... (other choices)
 
 # Main entry point
 if __name__ == "__main__":
     hms = HospitalManagementSystem()
     hms.start_system()
-
-
-# Complete
