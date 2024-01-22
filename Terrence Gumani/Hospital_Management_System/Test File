@@ -93,7 +93,12 @@ class StaffManagement:
     def __init__(self):
         self.staff_members = []
 
-    def add_staff_member(self, id_number, name, role, department):
+    def add_staff_member(self):
+        id_number = input("Enter staff member ID: ")
+        name = input("Enter staff member name: ")
+        role = input("Enter staff member role: ")
+        department = input("Enter staff member department: ")
+
         new_staff_member = Person(id_number, name, 0, "")
         new_staff_member.role = role
         new_staff_member.department = department
@@ -161,13 +166,13 @@ class HospitalManagementSystem:
     def start_system(self):
         while True:
             print("\nHospital Management System")
-            print("1. Register Patient")
-            print("2. Schedule Appointment")
-            print("3. Record Medical History")
-            print("4. View Medical History")
-            print("5. View Appointments")
-            print("6. Generate Bill")
-            print("7. Add Staff Member")
+            print("1. Add Staff Member")
+            print("2. Register Patient")
+            print("3. Schedule Appointment")
+            print("4. Record Medical History")
+            print("5. View Medical History")
+            print("6. View Appointments")
+            print("7. Generate Bill")
             print("8. Assign Doctor to Department")
             print("9. Manage Prescription")
             print("10. Generate Daily Appointments Report")
@@ -178,6 +183,9 @@ class HospitalManagementSystem:
             choice = input("Enter your choice (1-13): ")
 
             if choice == "1":
+                self.staff_management.add_staff_member()
+
+            elif choice == "2":
                 id_number = input("Enter patient ID: ")
                 name = input("Enter patient name: ")
                 age = int(input("Enter patient age: "))
@@ -192,29 +200,7 @@ class HospitalManagementSystem:
 
                 print(f"Patient {name} registered successfully with ID: {id_number}.")
 
-            elif choice == "2":
-                doctor_name = input("Enter doctor name: ")
-                date_str = input("Enter appointment date and time (YYYY-MM-DD HH:MM): ")
-                
-                # Parse the input string to create a datetime object
-                date_time = datetime.strptime(date_str, "%Y-%m-%d %H:%M")
-
-                doctor = Doctor(doctor_name, 0, "", "", "")
-                patient = new_patient if 'new_patient' in locals() else None
-
-                if patient:
-                    new_appointment = Appointment(patient, doctor, date_time)
-                    self.appointments.append(new_appointment)
-                    print(f"Appointment scheduled with {doctor_name} on {date_str} for {patient.name}.")
-
             # ... (other choices)
-
-            elif choice == "13":
-                print("Exiting Hospital Management System. Goodbye!")
-                break
-
-            else:
-                print("Invalid choice. Please enter a number between 1 and 13.")
 
 # Main entry point
 if __name__ == "__main__":
