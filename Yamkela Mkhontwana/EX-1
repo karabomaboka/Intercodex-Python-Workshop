@@ -1,0 +1,89 @@
+# Product: Car
+class Car:
+    def __init__(self):
+        self.vehicle_type = None
+        self.color = None
+        self.engine_type = None
+        self.accessories = []
+
+    def __str__(self):
+        return f"{self.color} {self.vehicle_type} with {self.engine_type} engine and accessories: {', '.join(self.accessories)}"
+
+
+# Builder interface
+class CarBuilder:
+    def create_car(self):
+        pass
+
+    def set_color(self, color):
+        pass
+
+    def set_engine_type(self, engine_type):
+        pass
+
+    def add_accessory(self, accessory):
+        pass
+
+
+# Concrete Builder for Sedan
+class SedanBuilder(CarBuilder):
+    def create_car(self):
+        self.car = Car()
+        self.car.vehicle_type = "Sedan"
+
+    def set_color(self, color):
+        self.car.color = color
+
+    def set_engine_type(self, engine_type):
+        self.car.engine_type = engine_type
+
+    def add_accessory(self, accessory):
+        self.car.accessories.append(accessory)
+
+
+# Concrete Builder for SUV
+class SUVBuilder(CarBuilder):
+    def create_car(self):
+        self.car = Car()
+        self.car.vehicle_type = "SUV"
+
+    def set_color(self, color):
+        self.car.color = color
+
+    def set_engine_type(self, engine_type):
+        self.car.engine_type = engine_type
+
+    def add_accessory(self, accessory):
+        self.car.accessories.append(accessory)
+
+
+# Director class
+class CarDirector:
+    def __init__(self, builder):
+        self.builder = builder
+
+    def construct(self, color, engine_type, accessories):
+        self.builder.create_car()
+        self.builder.set_color(color)
+        self.builder.set_engine_type(engine_type)
+        for accessory in accessories:
+            self.builder.add_accessory(accessory)
+
+    def get_car(self):
+        return self.builder.car
+
+
+# Client code
+sedan_builder = SedanBuilder()
+suv_builder = SUVBuilder()
+
+director = CarDirector(sedan_builder)
+director.construct("Blue", "Petrol", ["Leather seats", "Sunroof"])
+sedan_car = director.get_car()
+
+director = CarDirector(suv_builder)
+director.construct("Black", "Diesel", ["4WD", "Roof rack"])
+suv_car = director.get_car()
+
+print(sedan_car)
+print(suv_car)

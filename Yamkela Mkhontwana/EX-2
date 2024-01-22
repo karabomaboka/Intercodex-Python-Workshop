@@ -1,0 +1,112 @@
+# Common interface for all devices
+class SmartDevice:
+    def turn_on(self):
+        pass
+
+    def turn_off(self):
+        pass
+
+    def get_status(self):
+        pass
+
+
+# Adaptee classes (existing devices with different interfaces)
+
+class SmartLight:
+    def switch_on(self):
+        print("Smart light is ON")
+
+    def switch_off(self):
+        print("Smart light is OFF")
+
+    def get_light_status(self):
+        print("Light status: ON")
+
+
+class SmartThermostat:
+    def enable_heating(self):
+        print("Heating is ON")
+
+    def disable_heating(self):
+        print("Heating is OFF")
+
+    def enable_cooling(self):
+        print("Cooling is ON")
+
+    def get_thermostat_status(self):
+        print("Thermostat status: Heating is ON, Cooling is OFF")
+
+
+class SmartLock:
+    def unlock(self):
+        print("Smart lock is UNLOCKED")
+
+    def lock(self):
+        print("Smart lock is LOCKED")
+
+    def get_lock_status(self):
+        print("Lock status: LOCKED")
+
+
+# Adapters for each device
+
+class SmartLightAdapter(SmartDevice):
+    def __init__(self, smart_light):
+        self.smart_light = smart_light
+
+    def turn_on(self):
+        self.smart_light.switch_on()
+
+    def turn_off(self):
+        self.smart_light.switch_off()
+
+    def get_status(self):
+        self.smart_light.get_light_status()
+
+
+class SmartThermostatAdapter(SmartDevice):
+    def __init__(self, smart_thermostat):
+        self.smart_thermostat = smart_thermostat
+
+    def turn_on(self):
+        self.smart_thermostat.enable_heating()
+
+    def turn_off(self):
+        self.smart_thermostat.disable_heating()
+
+    def get_status(self):
+        self.smart_thermostat.get_thermostat_status()
+
+
+class SmartLockAdapter(SmartDevice):
+    def __init__(self, smart_lock):
+        self.smart_lock = smart_lock
+
+    def turn_on(self):
+        self.smart_lock.unlock()
+
+    def turn_off(self):
+        self.smart_lock.lock()
+
+    def get_status(self):
+        self.smart_lock.get_lock_status()
+
+
+# Client code
+
+smart_light = SmartLight()
+smart_thermostat = SmartThermostat()
+smart_lock = SmartLock()
+
+smart_light_adapter = SmartLightAdapter(smart_light)
+smart_thermostat_adapter = SmartThermostatAdapter(smart_thermostat)
+smart_lock_adapter = SmartLockAdapter(smart_lock)
+
+# Now, you can use the common SmartDevice interface to control different devices
+smart_home_devices = [smart_light_adapter, smart_thermostat_adapter, smart_lock_adapter]
+
+for device in smart_home_devices:
+    device.turn_on()
+    device.get_status()
+    device.turn_off()
+    print("---")
