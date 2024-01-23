@@ -1,0 +1,35 @@
+.name class {
+    color: blue;
+    background-color: yellow;
+}
+
+body{
+    margin: 0;
+}
+.block_1 {
+    height: 100px;
+    width: 100px;
+    background-color: blueviolet;
+    position: absolute;
+}
+
+.block_2 {
+    height: 100px;
+    width: 100px;
+    background-color: pink;
+    position: absolute;
+}
+
+.block_3 {
+    height: 100px;
+    width: 100px;
+    background-color: green;
+    position: absolute;
+}
+
+.block_4 {
+    height: 100px;
+    width: 100px;
+    background-color: black;
+    position: absolute;
+}
